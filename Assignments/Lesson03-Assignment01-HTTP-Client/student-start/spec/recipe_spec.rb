@@ -8,7 +8,7 @@ describe Recipe do
   subject { Recipe }
 
   # It should have a method called "for"
-  it { is_expected.to respond_to(:for) } 
+  it { is_expected.to respond_to(:for) }
 
   specify "Environment variable FOOD2FORK_KEY is set" do
     expect(ENV["FOOD2FORK_KEY"]).to_not be_nil
@@ -18,7 +18,7 @@ describe Recipe do
   its(:default_params) { is_expected.to include :key }
 
   # key should be set with the value of the environment variable FOOD2FORK_KEY
-  specify "default_params[:key] equals Environment variable FOOD2FORK_KEY" do 
+  specify "default_params[:key] equals Environment variable FOOD2FORK_KEY" do
     expect(subject.default_params[:key]).to eq ENV["FOOD2FORK_KEY"]
   end
 
@@ -31,7 +31,9 @@ describe Recipe do
       query = Recipe.default_params.merge({"q" => "chocolate"})
       stub_request(:get, Recipe.base_uri + "/search").
          with(query: query).
-         to_return(body: File.read('chocolate_recipes.json'), status: 200, headers: {'Content-Type' => 'application/json'})
+         to_return(body: File.read('chocolate_recipes.json'),
+                   status: 200,
+                   headers: {'Content-Type' => 'application/json'})
     end
 
     subject{ Recipe.for("chocolate") }
